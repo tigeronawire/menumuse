@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
+import dynamic from 'next/dynamic'
 import QRCode from 'react-qr-code'
-import html2pdf from 'html2pdf.js'
 
 export default function Builder() {
   const [sections, setSections] = useState([
@@ -30,8 +30,9 @@ export default function Builder() {
     setSections([...sections, { name: 'New Section', dishes: [''] }])
   }
 
-  const downloadPDF = () => {
-    if (previewRef.current) {
+  const downloadPDF = async () => {
+    if (typeof window !== 'undefined' && previewRef.current) {
+      const html2pdf = (await import('html2pdf.js')).default
       html2pdf().from(previewRef.current).save('MenuMuse_Menu.pdf')
     }
   }
