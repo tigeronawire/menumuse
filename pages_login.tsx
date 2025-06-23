@@ -1,35 +1,36 @@
+
 import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../firebaseConfig';
+import { firebaseConfig } from '../firebaseConfig.js';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export default function Login() {
+export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "/account";
-    } catch (err) {
+      alert('Login successful!');
+    } catch (err: any) {
       setError(err.message);
     }
   };
 
   return (
     <div>
-      <h1>Login</h1>
+      <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button type="submit">Login</button>
-        {error && <p>{error}</p>}
       </form>
+      {error && <p style={{color: 'red'}}>{error}</p>}
     </div>
   );
 }
