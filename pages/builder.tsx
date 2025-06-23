@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { QRCodeCanvas } from 'qrcode.react'
+import QRCode from 'react-qr-code'
 import html2pdf from 'html2pdf.js'
 
 export default function Builder() {
@@ -111,7 +111,7 @@ export default function Builder() {
               onClick={(e) => navigator.clipboard.writeText(shareURL)}
             />
           </div>
-          <QRCodeCanvas value={shareURL} size={100} />
+          <QRCode value={shareURL} size={100} bgColor="#ffffff" fgColor="#000000" />
         </div>
       </div>
     </main>
